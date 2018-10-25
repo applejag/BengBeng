@@ -6,16 +6,13 @@ using System.Text;
 
 namespace BengBeng.Repositories
 {
-    public class GameRepo
+    public static class GameRepo
     {
-        private static List<Game> Games { get; set; }
+        private static List<Game> Games = new List<Game>();
 
-        public GameRepo()
-        {
-            Games = new List<Game>();
-        }
+        
 
-        public bool SaveGame(Game game)
+        public static bool SaveGame(Game game)
         {
             if (!Games.Any(x=>x.Id == game.Id))
             {
@@ -25,12 +22,12 @@ namespace BengBeng.Repositories
             return false;
         }
 
-        public Game GetGame(int gameId)
+        public static Game GetGame(int gameId)
         {
             return Games.SingleOrDefault(x => x.Id == gameId);
         }
 
-        public List<Game> GetGames()
+        public static List<Game> GetGames()
         {
             return Games;
         }

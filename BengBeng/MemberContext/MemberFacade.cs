@@ -8,49 +8,52 @@ namespace BengBeng.MemberContext
 {
     public class MemberFacade
     {
-        private readonly MemberRepo _memberRepo;
+       
         private readonly IFortKnox _billing;
 
-        public MemberFacade(MemberRepo memberRepo, IFortKnox billing)
+        public MemberFacade(IFortKnox billing)
         {
-            _memberRepo = memberRepo;
+          
             _billing = billing;
         }
 
         public bool CreateMember(Member member)
         {
-            //if (BillMember(member))
-            //{
-                member.Memberships.Add(NewMembership());
-                _memberRepo.SaveMember(member);
-                return true;
-            //}
-            //return false;
+            BillMember(member);
+            member.Memberships.Add(NewMembership());
+            
+            MemberRepo.SaveMember(member);
+            return true;
         }
 
         private bool BillMember(Member member)
         {
+            Console.WriteLine("Billing member");
             return _billing.BillMemberFee(member);
         }
 
         private Membership NewMembership()
         {
+            Console.WriteLine("Adding membership to member");
             return new Membership {ValidYear = DateTime.Now.Year, StartDate = DateTime.Now, IsPayed = true};
         }
 
         private bool SaveMember(Member member)
         {
-            return _memberRepo.SaveMember(member);
+            Console.WriteLine("Saving member");
+            return MemberRepo.SaveMember(member);
         }
 
         public Member GetMember(string member)
         {
-            return _memberRepo.GetMember(member);
+            Console.WriteLine("Fetching member");
+            return MemberRepo.GetMember(member);
         }
 
         public List<Member> GetMembers()
         {
-            return _memberRepo.getMembers();
+            Console.WriteLine("Fetching members");
+            return MemberRepo.getMembers();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace UnitTests
             _memberManager.CreateMember(members[0]);
             _memberManager.CreateMember(members[1]);
 
-            var expected = 11;
+            var expected = 2;
             var actual = _memberManager.GetMembers().Count;
 
             Assert.Equal(expected, actual);
@@ -48,6 +48,40 @@ namespace UnitTests
 
             Assert.Equal(expected, actual);
         }
+        [Fact]
+        public void CreateTournament()
+        {
+            var _tManager = GetTournamentManager();
+            var cupName = "Bengans Cup2";
+            _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(-60).AddYears(-1));
+            var tournament = _tManager.GetTournament(cupName);
+            var expected = cupName;
+            var actual = tournament.Name;
+
+            Assert.Equal(expected, actual);
+        }
+        [Fact]
+        public void PlayTournamentGameTest()
+        {
+            var adapter = new MemberAdapter();
+            var _tManager = GetTournamentManager();
+            
+            var cupName = "Bengans Cup3";
+            _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(-60).AddYears(-1));
+            var members = SeedMembers().Take(2).ToList();
+            var players = new List<Player>();
+            foreach (var member in members)
+            {
+                players.Add(adapter.ConvertMemberToPlayer(member));
+            }
+            var _gManager = GetGameManager(players);
+            _gManager.PlayTournamentGame(members, cupName);
+            var tournamentGames = _tManager.GetTournament(cupName).Games;
+            var expected = 1;
+            var actual = tournamentGames.Count;
+
+            Assert.Equal(expected, actual);
+        }
 
         [Fact]
         public void PlayTournament()
@@ -56,6 +90,7 @@ namespace UnitTests
             var _memberAdapter = new MemberAdapter();
             var players = new List<Player>();
             var members = SeedMembers();
+            //members.Remove(members.SingleOrDefault(x => x.FirstName == "Alex"));
             var cupName = "Bengans Cup";
             var tournament = _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(-60).AddYears(-1) );
 
@@ -98,8 +133,8 @@ namespace UnitTests
             var mock = new Mock<IFortKnox>();
             mock.Setup(x => x.BillTorunamentFee(It.IsAny<Member>())).Returns(true);
             mock.Setup(x => x.HasMemberPayedTournamentFee(It.IsAny<Member>())).Returns(true);
-            var repo = new TournamentRepo();
-            var facade = new TournamentFacade(repo, mock.Object);
+            //var repo = new TournamentRepo();
+            var facade = new TournamentFacade( mock.Object);
             return new TournamentManager(facade);
         }
 
@@ -141,9 +176,9 @@ namespace UnitTests
                 });
             }
            
-            var repo = new GameRepo();
-            var tRepo = new TournamentRepo();
-            var facade = new GameFacade(laneMock.Object, repo, billingMock.Object, tRepo);
+            
+           
+            var facade = new GameFacade(laneMock.Object, billingMock.Object);
             return new GameManager(facade);
         }
 
@@ -313,8 +348,8 @@ namespace UnitTests
             mock.Setup(x => x.BillTorunamentFee(new Member())).Returns(true);
             mock.Setup(x => x.HasMemberPayedFee(new Member())).Returns(true);
             mock.Setup(x => x.HasMemberPayedTournamentFee(new Member())).Returns(true);
-            var repo = new MemberRepo();
-            var facade = new MemberFacade(repo,mock.Object);
+          
+            var facade = new MemberFacade(mock.Object);
             return new MemberManager(facade);
         }
     }

@@ -8,6 +8,6 @@ namespace BengBeng.ExternalDependencies
     public interface ILaneMachine2000
     {
         int InitiateGame(List<Player> contestants);
-        Object GetGameResult(int machineId);
+        GameResult GetGameResult(int machineId);
     }
 }

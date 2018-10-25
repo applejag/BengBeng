@@ -23,6 +23,11 @@ namespace BengBeng.TournamentContext
             return _facade.AddContestant(member, tournamentName);
         }
 
+        public Tournament GetTournament(string tournamentName)
+        {
+            return _facade.GetTournament(tournamentName);
+        }
+
         public Tournament GetTournamentResult(string tournamentName)
         {
             return _facade.GetTournamentResult(tournamentName);

@@ -15,5 +15,11 @@ namespace BengBeng.TournamentContext
         public List<Game> Games { get; set; }
         public List<Member> Contestants { get; set; }
         public Member Winner { get; set; }
+
+        public Tournament()
+        {
+            Contestants = new List<Member>();
+            Games = new List<Game>();
+        }
     }
 }

@@ -6,29 +6,26 @@ using System.Text;
 
 namespace BengBeng.Repositories
 {
-    public class MemberRepo
+    public static class MemberRepo
     {
-        private static List<Member> Members { get; set; }
-        public MemberRepo()
-        {
-            Members = new List<Member>();
-        }
+        private static List<Member> Members = new List<Member>();
+     
 
-        public bool SaveMember(Member member)
+        public static bool SaveMember(Member member)
         {
-            if (!Members.Any(x=>x.Id == member.Id))
-            {
+            //if (!Members.Any(x=>x.Id == member.Id))
+            //{
                 Members.Add(member);
                 return true;
-            }
-            return false;
+            //}
+            //return false;
         }
 
-        public Member GetMember(string id)
+        public static Member GetMember(string id)
         {
             return Members.SingleOrDefault(x => x.Id == id);
         }
-        public List<Member> getMembers()
+        public static List<Member> getMembers()
         {
             return Members;
         }

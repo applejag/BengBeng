@@ -14,6 +14,7 @@ namespace BengBeng.MemberContext
 
         public bool CreateMember(Member member)
         {
+            Console.WriteLine("Creating new member");
             return _facade.CreateMember(member);
         }
         public Member GetMember(string member)

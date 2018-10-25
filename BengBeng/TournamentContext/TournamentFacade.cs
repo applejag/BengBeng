@@ -11,62 +11,70 @@ namespace BengBeng.TournamentContext
 {
     public class TournamentFacade
     {
-        private readonly TournamentRepo _repo;
+        //private readonly TournamentRepo _repo;
         private readonly IFortKnox _billing;
 
-        public TournamentFacade(TournamentRepo repo, IFortKnox billing)
+        public TournamentFacade(IFortKnox billing)
         {
-            _repo = repo;
+            //_repo = repo;
+            
             _billing = billing;
         }
 
         public Tournament CreateTournament(string name, DateTime to, DateTime from)
         {
             var tournament = new Tournament { Name = name, From = from, To = to };
-            _repo.AddTournament(tournament);
+            TournamentRepo.AddTournament(tournament);
             return tournament;
         }
 
         public bool AddContestant(Member member, string tournamentName)
         {
-            //if (BillTorunamentFee(member))
-            //{
-                var tournament = AddToTournament(member, tournamentName);
-                UpdateTournament(tournament);
-                return true;
-            //}
-            //return false;
+            return TournamentRepo.AddTournamentMember(member, tournamentName);
         }
         private bool BillTorunamentFee(Member member)
         {
             return _billing.BillTorunamentFee(member);
         }
-        private Tournament AddToTournament(Member member, string id)
-        {
-            var tournament = _repo.GetTournament(id);
-            tournament.Contestants.Add(member);
-            return tournament;
-        }
+       
         private bool UpdateTournament(Tournament updatedTournament)
         {
-            return _repo.UpdateTournament(updatedTournament);
+            return TournamentRepo.UpdateTournament(updatedTournament);
         }
 
         public Tournament GetTournamentResult(string tournamentName)
         {
-            var tournament = _repo.GetTournament(tournamentName);
-            return SetTournamentWinner(tournament);
+           
+            var winner = GetTournamentWinner(tournamentName);
+            return TournamentRepo.SetTournamentWinner(winner, tournamentName);
         }
 
-        private Tournament SetTournamentWinner(Tournament tournament)
+        
+        private Member GetTournamentWinner(string tournamentName)
         {
-          
-            var winner = tournament.Games.GroupBy(s => s.Winner)
-                         .OrderByDescending(s => s.Count())
-                         .First().Key;
+            var tournament = TournamentRepo.GetTournament(tournamentName);
+            //var winnerPlayer = tournament.Games.First().Winner;
+            //var winnerPlayer = tournament.Games.GroupBy(s => s.Winner)
+            //             .OrderByDescending(s => s.Count())
+            //             .First().Key;
+            var winnerPlayer = tournament.Games
+            .GroupBy(x => x.Winner)
+            .Select(x => new
+            {
+                Winner = x.Key,
+                Count = x.Count()
+            })
+            .OrderByDescending(x => x.Count)
+            .Select(x => x.Winner)
+            .First();
 
-            tournament.Winner = tournament.Contestants.SingleOrDefault(x => x.FirstName + " " + x.Lastname == winner.Name);
-            return tournament;
+            var winner = MemberRepo.GetMember(winnerPlayer.Id);
+            return winner;
+        }
+
+        public Tournament GetTournament(string tournamentName)
+        {
+            return TournamentRepo.GetTournament(tournamentName);
         }
     }
 }

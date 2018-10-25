@@ -15,19 +15,15 @@ namespace BengBeng.GameContext
     {
         private readonly ILaneMachine2000 _laneMachine;
         private readonly IFortKnox _billing;
-        private readonly GameRepo _gameRepo;
         private readonly MemberAdapter _memberAdapter;
         private readonly GameAdapter _gameAdapter;
-        private readonly TournamentRepo _tournamentRepo;
 
-        public GameFacade(ILaneMachine2000 laneMachine, GameRepo gameRepo, IFortKnox billing, TournamentRepo tournamentRepo)
+        public GameFacade(ILaneMachine2000 laneMachine, IFortKnox billing)
         {
             _laneMachine = laneMachine;
-            _gameRepo = gameRepo;
             _billing = billing;
             _memberAdapter = new MemberAdapter();
             _gameAdapter = new GameAdapter();
-            _tournamentRepo = tournamentRepo;
         }
 
         public Game PlayTournamentGame(List<Member> participants, string tournamentName)
@@ -38,6 +34,7 @@ namespace BengBeng.GameContext
                 var machineId = _laneMachine.InitiateGame(contestants);
                 var result = GetResult(machineId);
                 var game = _gameAdapter.ConvertGameResultToGame(result, tournamentName);
+                game.ConfigGame();
                
                 SaveGame(game);
                 return game;
@@ -50,9 +47,13 @@ namespace BengBeng.GameContext
             {
                 var contestants = ConvertMembersToPlayerList(participants);
                 var machineId = _laneMachine.InitiateGame(contestants);
+                Console.WriteLine("Playing game");
                 var result = GetResult(machineId);
-                var game = _gameAdapter.ConvertGameResultToGame(result);
+                Console.WriteLine("Game results:");
                 
+                var game = _gameAdapter.ConvertGameResultToGame(result);
+                Console.WriteLine(game.Winner.Name + " wins with " + game.Winner.Score + " points");
+                game.ConfigGame();
                 SaveGame(game);
                 return game;
 
@@ -62,6 +63,7 @@ namespace BengBeng.GameContext
 
         private GameResult GetResult(int machineId)
         {
+            Console.WriteLine("Getting results from lane system...");
             return _laneMachine.GetGameResult(machineId) as GameResult;
         } 
 
@@ -69,9 +71,10 @@ namespace BengBeng.GameContext
         {
             if (game.IsTournamentGame)
             {
-                _tournamentRepo.AddTournamentGame(game);
+                TournamentRepo.AddTournamentGame(game);
             }
-           return _gameRepo.SaveGame(game);
+            Console.WriteLine("Saving game to database");
+            return GameRepo.SaveGame(game);
         }
 
         private List<Player> ConvertMembersToPlayerList(List<Member> contestants)
@@ -86,18 +89,21 @@ namespace BengBeng.GameContext
 
         private bool MembersEligibleForGame(List<Member> contestants)
         {
-            
+            Console.WriteLine("Checking contestants billed status...");
             if (_billing.HasMemberPayedFee(contestants[0]))
             {
+                Console.WriteLine("Contestants passed");
                 return _billing.HasMemberPayedFee(contestants[1]);
+                
             }
             return false;
         }
         private bool MembersEligibleForTournamentGame(List<Member> contestants)
         {
-
+            Console.WriteLine("Checking contestants billed status...");
             if (_billing.HasMemberPayedTournamentFee(contestants[0]))
             {
+                Console.WriteLine("Contestants passed");
                 return _billing.HasMemberPayedTournamentFee(contestants[1]);
             }
             return false;
