@@ -1,0 +1,48 @@
+Use Case: Registrera ny kund
+
+Huvudscenario
+1: Användaren matar in kund uppgifter.
+2: Systemet verifierar att användaren inte redan finns.
+3: Systemet skapar användaren och skickar uppgifterna till fakturering.
+4: Användaren läggs till i databasen.
+
+Alternativt scenario
+
+3: Användaren finns redan i systemet. Ingen ny användare skapas.
+
+Use Case: Spela en match
+
+Huvudscenario
+1: Användaren väljer två registrerade kunder och väljer "ny match".
+2: Systemet kollar att båda användana betalat sin användar avgift/ alternativt att den inte förfallit.
+3: Användaren bokar en ledig bana , anger längd, registerar en ny match och initierar bansystemet.
+4: När matchen är över returnerar bansystemet ett resultat.
+5: Resultatet sparas i databasen.
+6: Vinnaren får en klubba
+
+Alternativt scenario
+
+
+Use Case: Starta en turnering och registrera användare.
+
+Huvudscenario
+1: Användaren registrerar en ny turnering med namn och datum.
+2: Användaren lägger till registrerade kunder i turneringen.
+3: Systemet kollar att användaren inte har några obetalda avgifter
+4: Systemet skickar användaren till fakturering för turneringsavgiften.
+5: Användaren lägger till kunden i turneringen.
+
+Alternativt scenario
+4: Systemet medelar att kunden har obetalda avgifter.
+
+
+Use Case: Avsluta turnering
+
+1: Användaren väljer turnering från systemet med namn.
+2: Användaren väljer avsluta turnering.
+3. Systemet kollar om datumen för turneringen är över.
+4: Systemet väljer en vinnare av de registrerade deltagarna och kontrollerar att reglerna är uppfyllda.
+5: Systemet uppdaterar databasen och vinnaren loggas.
+
+
+ 
