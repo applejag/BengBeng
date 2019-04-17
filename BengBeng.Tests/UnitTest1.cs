@@ -7,11 +7,12 @@ using BengBeng.GameContext;
 using BengBeng.GameContext.Factory;
 using BengBeng.MemberContext;
 using BengBeng.TournamentContext;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Xunit;
 
 namespace UnitTests
 {
+    [TestClass]
     public class TestCases
     {
         private void PlayTournamentGame(List<Member> members, string cupName)
@@ -237,7 +238,7 @@ namespace UnitTests
             return new MemberManager(facade);
         }
 
-        [Fact]
+        [TestMethod]
         public void CreateTournament()
         {
             TournamentManager _tManager = GetTournamentManager();
@@ -247,10 +248,10 @@ namespace UnitTests
             string expected = cupName;
             string actual = tournament.Name;
 
-            Assert.Equal(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
 
-        [Fact]
+        [TestMethod]
         public void PlayGame()
         {
             MemberManager _memberManager = GetMemberManager();
@@ -265,10 +266,10 @@ namespace UnitTests
             string expected = "Alex Arvanitis";
             string actual = game.Winner.Name;
 
-            Assert.Equal(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
 
-        [Fact]
+        [TestMethod]
         public void PlayTournament()
         {
             TournamentManager _tManager = GetTournamentManager();
@@ -280,18 +281,27 @@ namespace UnitTests
             Tournament tournament = _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1),
                 DateTime.Now.AddDays(-60).AddYears(-1));
 
-            foreach (Member member in members) _tManager.AddContestant(member, cupName);
+            foreach (Member member in members)
+            {
+                _tManager.AddContestant(member, cupName);
+            }
+
             for (int i = 0; i < members.Count; i++)
-            for (int j = i + 1; j < members.Count; j++)
-                PlayTournamentGame(new List<Member> {members[i], members[j]}, cupName);
+            {
+                for (int j = i + 1; j < members.Count; j++)
+                {
+                    PlayTournamentGame(new List<Member> {members[i], members[j]}, cupName);
+                }
+            }
+
             string expected = "Alex Arvanitis";
             Member winner = _tManager.GetTournamentResult(cupName).Winner;
             string actual = winner.FirstName + " " + winner.Lastname;
 
-            Assert.Equal(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
 
-        [Fact]
+        [TestMethod]
         public void PlayTournamentGameTest()
         {
             var adapter = new MemberAdapter();
@@ -308,10 +318,10 @@ namespace UnitTests
             int expected = 1;
             int actual = tournamentGames.Count;
 
-            Assert.Equal(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
 
-        [Fact]
+        [TestMethod]
         public void RegisterNewUsers()
         {
             MemberManager _memberManager = GetMemberManager();
@@ -322,7 +332,7 @@ namespace UnitTests
             int expected = 2;
             int actual = _memberManager.GetMembers().Count;
 
-            Assert.Equal(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
     }
 }
