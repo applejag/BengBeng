@@ -10,7 +10,7 @@ namespace BengBeng.ExternalDependencies
             return new GameResult
             {
                 MachineId = 1,
-                Contestants = new List<Player> {new Player {Name = "Alexander"}, new Player {Name = "Gustav"}},
+                Contestants = new List<Player> {new Player {Name = "Kalle"}, new Player {Name = "Gustav"}},
                 Player1Set1Score = 34,
                 Player1Set2Score = 23,
                 Player1Set3Score = 57,

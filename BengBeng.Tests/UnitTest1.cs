@@ -47,7 +47,7 @@ namespace UnitTests
             billingMock.Setup(x => x.HasMemberPayedFee(It.IsAny<Member>())).Returns(true);
             var laneMock = new Mock<ILaneMachine2000>();
             laneMock.Setup(x => x.InitiateGame(It.IsAny<List<Player>>())).Returns(1);
-            if (players[0].Name == "Alex Arvanitis")
+            if (players[0].Name == "John Doe")
                 laneMock.Setup(x => x.GetGameResult(It.IsAny<int>())).Returns(new GameResult
                 {
                     MachineId = 1,
@@ -82,12 +82,12 @@ namespace UnitTests
             var member1 = new Member
             {
                 Id = DateTime.Now.ToShortDateString() + 1,
-                FirstName = "Alex",
-                Lastname = "Arvanitis",
+                FirstName = "Kalle",
+                Lastname = "Jillheden",
 
                 Adress = new Adress
                 {
-                    Street = "Gotlandsgatan 50",
+                    Street = "Hemmavägen 42",
                     City = "Sthml",
                     Zip = "11665"
                 }
@@ -95,12 +95,12 @@ namespace UnitTests
             var member2 = new Member
             {
                 Id = DateTime.Now.ToShortDateString() + 2,
-                FirstName = "Gustav",
-                Lastname = "Cleveman",
+                FirstName = "John",
+                Lastname = "Doe",
 
                 Adress = new Adress
                 {
-                    Street = "Metargatan 10",
+                    Street = "Road rd. 10",
                     City = "Sthml",
                     Zip = "11635"
                 }
@@ -108,12 +108,12 @@ namespace UnitTests
             var member3 = new Member
             {
                 Id = DateTime.Now.ToShortDateString() + 3,
-                FirstName = "Gustav",
-                Lastname = "Arvanitis",
+                FirstName = "Plopp",
+                Lastname = "Knäck",
 
                 Adress = new Adress
                 {
-                    Street = "Metargatan 10",
+                    Street = "Månen",
                     City = "Sthml",
                     Zip = "11635"
                 }
@@ -121,12 +121,12 @@ namespace UnitTests
             var member4 = new Member
             {
                 Id = DateTime.Now.ToShortDateString() + 4,
-                FirstName = "Emilie",
-                Lastname = "Cleveman",
+                FirstName = "Xeraph",
+                Lastname = "Booswasch",
 
                 Adress = new Adress
                 {
-                    Street = "Metargatan 10",
+                    Street = "Rift",
                     City = "Sthml",
                     Zip = "11635"
                 }
@@ -135,11 +135,11 @@ namespace UnitTests
             {
                 Id = DateTime.Now.ToShortDateString() + 5,
                 FirstName = "Jason",
-                Lastname = "Arvanitis",
+                Lastname = "Mickesson",
 
                 Adress = new Adress
                 {
-                    Street = "Metargatan 10",
+                    Street = "Bulleland",
                     City = "Sthml",
                     Zip = "11635"
                 }
@@ -147,12 +147,12 @@ namespace UnitTests
             var member6 = new Member
             {
                 Id = DateTime.Now.ToShortDateString() + 6,
-                FirstName = "Julia",
-                Lastname = "Arvanitis",
+                FirstName = "Olle",
+                Lastname = "Ellosson",
 
                 Adress = new Adress
                 {
-                    Street = "Metargatan 10",
+                    Street = "Sifferholm 10214125",
                     City = "Sthml",
                     Zip = "11635"
                 }
@@ -160,12 +160,12 @@ namespace UnitTests
             var member7 = new Member
             {
                 Id = DateTime.Now.ToShortDateString() + 7,
-                FirstName = "Emilie",
-                Lastname = "Arvanitis",
+                FirstName = "Understeck",
+                Lastname = "_________",
 
                 Adress = new Adress
                 {
-                    Street = "Metargatan 10",
+                    Street = "Den gatan runt hörnet",
                     City = "Sthml",
                     Zip = "11635"
                 }
@@ -173,12 +173,12 @@ namespace UnitTests
             var member8 = new Member
             {
                 Id = DateTime.Now.ToShortDateString() + 8,
-                FirstName = "Emilie",
-                Lastname = "Glans",
+                FirstName = "Älg",
+                Lastname = "Ren",
 
                 Adress = new Adress
                 {
-                    Street = "Metargatan 10",
+                    Street = "Skogsbrunet ½",
                     City = "Sthml",
                     Zip = "11635"
                 }
@@ -187,11 +187,11 @@ namespace UnitTests
             {
                 Id = DateTime.Now.ToShortDateString() + 9,
                 FirstName = "Tiina",
-                Lastname = "Arvanitis",
+                Lastname = "Arvar",
 
                 Adress = new Adress
                 {
-                    Street = "Metargatan 10",
+                    Street = "Meta torget",
                     City = "Sthml",
                     Zip = "11635"
                 }
@@ -200,11 +200,11 @@ namespace UnitTests
             {
                 Id = DateTime.Now.ToShortDateString() + 10,
                 FirstName = "Leena",
-                Lastname = "Arvanitis",
+                Lastname = "Büll",
 
                 Adress = new Adress
                 {
-                    Street = "Metargatan 10",
+                    Street = "På tågen",
                     City = "Sthml",
                     Zip = "11635"
                 }
@@ -212,12 +212,12 @@ namespace UnitTests
             var member11 = new Member
             {
                 Id = DateTime.Now.ToShortDateString() + 11,
-                FirstName = "Karim",
-                Lastname = "Hamza",
+                FirstName = "Fredrik",
+                Lastname = "Höglund",
 
                 Adress = new Adress
                 {
-                    Street = "Metargatan 10",
+                    Street = "Sonic hedgehocksson",
                     City = "Sthml",
                     Zip = "11635"
                 }
@@ -263,7 +263,7 @@ namespace UnitTests
             GameManager _gameManager = GetGameManager(players);
 
             Game game = _gameManager.PlayGame(SeedMembers());
-            string expected = "Alex Arvanitis";
+            string expected = "John Doe";
             string actual = game.Winner.Name;
 
             Assert.AreEqual(expected, actual);
@@ -276,7 +276,6 @@ namespace UnitTests
             var _memberAdapter = new MemberAdapter();
             var players = new List<Player>();
             List<Member> members = SeedMembers();
-            //members.Remove(members.SingleOrDefault(x => x.FirstName == "Alex"));
             string cupName = "Bengans Cup";
             Tournament tournament = _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1),
                 DateTime.Now.AddDays(-60).AddYears(-1));
@@ -294,7 +293,7 @@ namespace UnitTests
                 }
             }
 
-            string expected = "Alex Arvanitis";
+            string expected = "John Doe";
             Member winner = _tManager.GetTournamentResult(cupName).Winner;
             string actual = winner.FirstName + " " + winner.Lastname;
 
