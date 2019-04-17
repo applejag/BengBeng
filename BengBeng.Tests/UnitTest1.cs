@@ -1,18 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using BengBeng.Adapters;
-using BengBeng.ExternalDependencies;
 using BengBeng.GameContext;
-using BengBeng.GameContext.Factory;
 using BengBeng.MemberContext;
-using BengBeng.Tests;
-using BengBeng.TournamentContext;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
-namespace UnitTests
+namespace BengBeng.Tests
 {
     [TestClass]
     public class TestCases
