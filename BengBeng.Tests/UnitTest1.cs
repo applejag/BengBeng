@@ -4,6 +4,8 @@ using System.Linq;
 using BengBeng.Adapters;
 using BengBeng.GameContext;
 using BengBeng.MemberContext;
+using BengBeng.Repositories;
+using BengBeng.TournamentContext;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BengBeng.Tests
@@ -21,7 +23,7 @@ namespace BengBeng.Tests
             var _tManager = TestHelper.CreateTournamentManager();
 
             // Act
-            _tManager.Createtournament(cupName,
+            _tManager.CreateTournament(cupName,
                 DateTime.Now.AddYears(-1),
                 DateTime.Now.AddDays(-60).AddYears(-1)
             );
@@ -62,12 +64,14 @@ namespace BengBeng.Tests
 
             var manager = TestHelper.CreateTournamentManager();
             var members = TestHelper.SeedMembers();
-            manager.Createtournament(cupName, DateTime.Now.AddYears(-1),
+            manager.CreateTournament(cupName, DateTime.Now.AddYears(-1),
                 DateTime.Now.AddDays(-60).AddYears(-1));
+
 
             foreach (var member in members)
             {
                 manager.AddContestant(member, cupName);
+                MemberRepo.SaveMember(member);
             }
 
             // Act
@@ -78,9 +82,10 @@ namespace BengBeng.Tests
                     TestHelper.PlayTournamentGame(new List<Member> {members[i], members[j]}, cupName);
                 }
             }
+            var winner = manager.GetTournamentResult(cupName).Winner;
 
             // Assert
-            var winner = manager.GetTournamentResult(cupName).Winner;
+            Assert.IsNotNull(winner);
             string actual = winner.FirstName + " " + winner.Lastname;
 
             Assert.AreEqual(expected, actual);
@@ -96,7 +101,7 @@ namespace BengBeng.Tests
             var adapter = new MemberAdapter();
             var tournamentManager = TestHelper.CreateTournamentManager();
 
-            tournamentManager.Createtournament(cupName,
+            tournamentManager.CreateTournament(cupName,
                 DateTime.Now.AddYears(-1),
                 DateTime.Now.AddDays(-60).AddYears(-1)
             );

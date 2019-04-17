@@ -12,7 +12,7 @@ namespace BengBeng.TournamentContext
             _facade = facade;
         }
 
-        public Tournament Createtournament(string name, DateTime to, DateTime from)
+        public Tournament CreateTournament(string name, DateTime to, DateTime from)
         {
             return _facade.CreateTournament(name, to, from);
         }
