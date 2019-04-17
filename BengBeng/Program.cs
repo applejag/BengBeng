@@ -12,8 +12,8 @@ namespace BengBeng
         {
             //Create and add two members
             var _memberManager = new MemberManager(new MemberFacade(new FortKnox()));
-            var newMember1 = new Member {FirstName = "Kalle", Lastname = "", Adress = new Adress()};
-            var newMember2 = new Member {FirstName = "Hobbe", Lastname = "", Adress = new Adress()};
+            var newMember1 = new Member {FirstName = "Kalle", Lastname = "", Adress = ""};
+            var newMember2 = new Member {FirstName = "Hobbe", Lastname = "", Adress = ""};
             _memberManager.CreateMember(newMember1);
             _memberManager.CreateMember(newMember2);
 

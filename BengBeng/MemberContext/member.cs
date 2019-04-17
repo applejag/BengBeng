@@ -9,7 +9,7 @@ namespace BengBeng.MemberContext
         public string Lastname { get; set; }
 
         public List<Membership> Memberships { get; set; }
-        public Adress Adress { get; set; }
+        public string Adress { get; set; }
 
         public Member()
         {

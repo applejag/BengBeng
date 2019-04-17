@@ -91,12 +91,7 @@ namespace UnitTests
                 FirstName = "Kalle",
                 Lastname = "Jillheden",
 
-                Adress = new Adress
-                {
-                    Street = "Hemmavägen 42",
-                    City = "Sthml",
-                    Zip = "11665"
-                }
+                Adress = "Hemmavägen 42, Sthml, 11665"
             };
             var member2 = new Member
             {
@@ -104,12 +99,7 @@ namespace UnitTests
                 FirstName = "John",
                 Lastname = "Doe",
 
-                Adress = new Adress
-                {
-                    Street = "Road rd. 10",
-                    City = "Sthml",
-                    Zip = "11635"
-                }
+                Adress = "Road rd. 10, Sthml, 11635"
             };
             var member3 = new Member
             {
@@ -117,12 +107,7 @@ namespace UnitTests
                 FirstName = "Plopp",
                 Lastname = "Knäck",
 
-                Adress = new Adress
-                {
-                    Street = "Månen",
-                    City = "Sthml",
-                    Zip = "11635"
-                }
+                Adress = "Månen, Sthml, 11635"
             };
             var member4 = new Member
             {
@@ -130,12 +115,7 @@ namespace UnitTests
                 FirstName = "Xeraph",
                 Lastname = "Booswasch",
 
-                Adress = new Adress
-                {
-                    Street = "Rift",
-                    City = "Sthml",
-                    Zip = "11635"
-                }
+                Adress = "Rift, Sthml, 11635"
             };
             var member5 = new Member
             {
@@ -143,12 +123,7 @@ namespace UnitTests
                 FirstName = "Jason",
                 Lastname = "Mickesson",
 
-                Adress = new Adress
-                {
-                    Street = "Bulleland",
-                    City = "Sthml",
-                    Zip = "11635"
-                }
+                Adress = "Bulleland, Sthml, 11635"
             };
             var member6 = new Member
             {
@@ -156,12 +131,7 @@ namespace UnitTests
                 FirstName = "Olle",
                 Lastname = "Ellosson",
 
-                Adress = new Adress
-                {
-                    Street = "Sifferholm 10214125",
-                    City = "Sthml",
-                    Zip = "11635"
-                }
+                Adress = "Sifferholm 10214125, Sthml, 11635"
             };
             var member7 = new Member
             {
@@ -169,12 +139,7 @@ namespace UnitTests
                 FirstName = "Understeck",
                 Lastname = "_________",
 
-                Adress = new Adress
-                {
-                    Street = "Den gatan runt hörnet",
-                    City = "Sthml",
-                    Zip = "11635"
-                }
+                Adress = "Den gatan runt hörnet, Sthml, 11635"
             };
             var member8 = new Member
             {
@@ -182,12 +147,7 @@ namespace UnitTests
                 FirstName = "Älg",
                 Lastname = "Ren",
 
-                Adress = new Adress
-                {
-                    Street = "Skogsbrunet ½",
-                    City = "Sthml",
-                    Zip = "11635"
-                }
+                Adress = "Skogsbrunet ½, Sthml, 11635"
             };
             var member9 = new Member
             {
@@ -195,12 +155,7 @@ namespace UnitTests
                 FirstName = "Tiina",
                 Lastname = "Arvar",
 
-                Adress = new Adress
-                {
-                    Street = "Meta torget",
-                    City = "Sthml",
-                    Zip = "11635"
-                }
+                Adress = "Meta torget, Sthml, 11635"
             };
             var member10 = new Member
             {
@@ -208,12 +163,7 @@ namespace UnitTests
                 FirstName = "Leena",
                 Lastname = "Büll",
 
-                Adress = new Adress
-                {
-                    Street = "På tågen",
-                    City = "Sthml",
-                    Zip = "11635"
-                }
+                Adress = "På tågen, Sthml, 11635"
             };
             var member11 = new Member
             {
@@ -221,12 +171,7 @@ namespace UnitTests
                 FirstName = "Fredrik",
                 Lastname = "Höglund",
 
-                Adress = new Adress
-                {
-                    Street = "Sonic hedgehocksson",
-                    City = "Sthml",
-                    Zip = "11635"
-                }
+                Adress = "Sonic hedgehocksson, Sthml, 11635"
             };
             return new List<Member>
                 {member1, member2, member3, member4, member5, member6, member7, member8, member9, member10, member11};
