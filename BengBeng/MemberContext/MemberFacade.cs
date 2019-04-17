@@ -32,7 +32,7 @@ namespace BengBeng.MemberContext
         public List<Member> GetMembers()
         {
             Console.WriteLine("Fetching members");
-            return MemberRepo.getMembers();
+            return MemberRepo.GetMembers();
         }
 
         private bool BillMember(Member member)

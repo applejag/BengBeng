@@ -10,12 +10,8 @@ namespace BengBeng.Repositories
 
         public static bool SaveMember(Member member)
         {
-            //if (!Members.Any(x=>x.Id == member.Id))
-            //{
             Members.Add(member);
             return true;
-            //}
-            //return false;
         }
 
         public static Member GetMember(string id)
@@ -23,7 +19,7 @@ namespace BengBeng.Repositories
             return Members.SingleOrDefault(x => x.Id == id);
         }
 
-        public static List<Member> getMembers()
+        public static List<Member> GetMembers()
         {
             return Members;
         }
