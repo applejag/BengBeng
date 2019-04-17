@@ -68,7 +68,11 @@ namespace BengBeng.GameContext
 
         private bool SaveGame(Game game)
         {
-            if (game.IsTournamentGame) TournamentRepo.AddTournamentGame(game);
+            if (game.IsTournamentGame)
+            {
+                TournamentRepo.AddTournamentGame(game);
+            }
+
             Console.WriteLine("Saving game to database");
             return GameRepo.SaveGame(game);
         }
@@ -76,7 +80,11 @@ namespace BengBeng.GameContext
         private List<Player> ConvertMembersToPlayerList(List<Member> contestants)
         {
             var players = new List<Player>();
-            foreach (Member member in contestants) players.Add(_memberAdapter.ConvertMemberToPlayer(member));
+            foreach (Member member in contestants)
+            {
+                players.Add(_memberAdapter.ConvertMemberToPlayer(member));
+            }
+
             return players;
         }
 

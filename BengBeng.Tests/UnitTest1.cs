@@ -21,7 +21,10 @@ namespace UnitTests
 
             var _memberAdapter = new MemberAdapter();
             var players = new List<Player>();
-            foreach (Member member in members) players.Add(_memberAdapter.ConvertMemberToPlayer(member));
+            foreach (Member member in members)
+            {
+                players.Add(_memberAdapter.ConvertMemberToPlayer(member));
+            }
 
             GameManager _gameManager = GetGameManager(players);
 
@@ -48,6 +51,7 @@ namespace UnitTests
             var laneMock = new Mock<ILaneMachine2000>();
             laneMock.Setup(x => x.InitiateGame(It.IsAny<List<Player>>())).Returns(1);
             if (players[0].Name == "John Doe")
+            {
                 laneMock.Setup(x => x.GetGameResult(It.IsAny<int>())).Returns(new GameResult
                 {
                     MachineId = 1,
@@ -59,7 +63,9 @@ namespace UnitTests
                     Player2Set2Score = 56,
                     Player2Set3Score = 78
                 });
+            }
             else
+            {
                 laneMock.Setup(x => x.GetGameResult(It.IsAny<int>())).Returns(new GameResult
                 {
                     MachineId = 1,
@@ -71,7 +77,7 @@ namespace UnitTests
                     Player2Set2Score = 56,
                     Player2Set3Score = 78
                 });
-
+            }
 
             var facade = new GameFacade(laneMock.Object, billingMock.Object);
             return new GameManager(facade);
@@ -258,7 +264,10 @@ namespace UnitTests
             IEnumerable<Member> members = SeedMembers().Take(2);
             var _memberAdapter = new MemberAdapter();
             var players = new List<Player>();
-            foreach (Member member in members) players.Add(_memberAdapter.ConvertMemberToPlayer(member));
+            foreach (Member member in members)
+            {
+                players.Add(_memberAdapter.ConvertMemberToPlayer(member));
+            }
 
             GameManager _gameManager = GetGameManager(players);
 
@@ -310,7 +319,11 @@ namespace UnitTests
             _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(-60).AddYears(-1));
             List<Member> members = SeedMembers().Take(2).ToList();
             var players = new List<Player>();
-            foreach (Member member in members) players.Add(adapter.ConvertMemberToPlayer(member));
+            foreach (Member member in members)
+            {
+                players.Add(adapter.ConvertMemberToPlayer(member));
+            }
+
             GameManager _gManager = GetGameManager(players);
             _gManager.PlayTournamentGame(members, cupName);
             List<Game> tournamentGames = _tManager.GetTournament(cupName).Games;
