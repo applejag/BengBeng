@@ -1,131 +1,30 @@
-using BengBeng.Adapters;
-using BengBeng.ExternalDependencies;
-using BengBeng.GameContext;
-using BengBeng.MemberContext;
-using BengBeng.Repositories;
-using BengBeng.TournamentContext;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BengBeng.Adapters;
+using BengBeng.ExternalDependencies;
+using BengBeng.GameContext;
+using BengBeng.GameContext.Factory;
+using BengBeng.MemberContext;
+using BengBeng.TournamentContext;
+using Moq;
 using Xunit;
 
 namespace UnitTests
 {
     public class TestCases
     {
-        [Fact]
-        public void RegisterNewUsers()
-        {
-            var _memberManager = GetMemberManager();
-            var members = SeedMembers();
-            _memberManager.CreateMember(members[0]);
-            _memberManager.CreateMember(members[1]);
-
-            var expected = 2;
-            var actual = _memberManager.GetMembers().Count;
-
-            Assert.Equal(expected, actual);
-
-        }
-        [Fact]
-        public void PlayGame()
-        {
-            var _memberManager = GetMemberManager();
-            var members = SeedMembers().Take(2);
-            var _memberAdapter = new MemberAdapter();
-            var players = new List<Player>();
-            foreach (var member in members)
-            {
-                players.Add(_memberAdapter.ConvertMemberToPlayer(member));
-            }
-           
-            var _gameManager = GetGameManager(players);
-
-            var game = _gameManager.PlayGame(SeedMembers());
-            var expected = "Alex Arvanitis";
-            var actual = game.Winner.Name;
-
-            Assert.Equal(expected, actual);
-        }
-        [Fact]
-        public void CreateTournament()
-        {
-            var _tManager = GetTournamentManager();
-            var cupName = "Bengans Cup2";
-            _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(-60).AddYears(-1));
-            var tournament = _tManager.GetTournament(cupName);
-            var expected = cupName;
-            var actual = tournament.Name;
-
-            Assert.Equal(expected, actual);
-        }
-        [Fact]
-        public void PlayTournamentGameTest()
-        {
-            var adapter = new MemberAdapter();
-            var _tManager = GetTournamentManager();
-            
-            var cupName = "Bengans Cup3";
-            _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(-60).AddYears(-1));
-            var members = SeedMembers().Take(2).ToList();
-            var players = new List<Player>();
-            foreach (var member in members)
-            {
-                players.Add(adapter.ConvertMemberToPlayer(member));
-            }
-            var _gManager = GetGameManager(players);
-            _gManager.PlayTournamentGame(members, cupName);
-            var tournamentGames = _tManager.GetTournament(cupName).Games;
-            var expected = 1;
-            var actual = tournamentGames.Count;
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void PlayTournament()
-        {
-            var _tManager = GetTournamentManager();
-            var _memberAdapter = new MemberAdapter();
-            var players = new List<Player>();
-            var members = SeedMembers();
-            //members.Remove(members.SingleOrDefault(x => x.FirstName == "Alex"));
-            var cupName = "Bengans Cup";
-            var tournament = _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(-60).AddYears(-1) );
-
-            foreach (var member in members)
-            {
-                _tManager.AddContestant(member, cupName);
-            }
-            for (int i = 0; i < members.Count; i++)
-            {
-                for (int j = i+1; j < members.Count; j++)
-                {
-                    PlayTournamentGame(new List<Member> { members[i], members[j] }, cupName);
-                }
-            }
-            var expected = "Alex Arvanitis";
-            var winner = _tManager.GetTournamentResult(cupName).Winner;
-            var actual = winner.FirstName + " " + winner.Lastname;
-
-            Assert.Equal(expected, actual);
-        }
-
         private void PlayTournamentGame(List<Member> members, string cupName)
         {
-            var _memberManager = GetMemberManager();
-            
+            MemberManager _memberManager = GetMemberManager();
+
             var _memberAdapter = new MemberAdapter();
             var players = new List<Player>();
-            foreach (var member in members)
-            {
-                players.Add(_memberAdapter.ConvertMemberToPlayer(member));
-            }
+            foreach (Member member in members) players.Add(_memberAdapter.ConvertMemberToPlayer(member));
 
-            var _gameManager = GetGameManager(players);
+            GameManager _gameManager = GetGameManager(players);
 
-            var game = _gameManager.PlayTournamentGame(members, cupName);
+            Game game = _gameManager.PlayTournamentGame(members, cupName);
         }
 
         private TournamentManager GetTournamentManager()
@@ -134,21 +33,20 @@ namespace UnitTests
             mock.Setup(x => x.BillTorunamentFee(It.IsAny<Member>())).Returns(true);
             mock.Setup(x => x.HasMemberPayedTournamentFee(It.IsAny<Member>())).Returns(true);
             //var repo = new TournamentRepo();
-            var facade = new TournamentFacade( mock.Object);
+            var facade = new TournamentFacade(mock.Object);
             return new TournamentManager(facade);
         }
 
         private GameManager GetGameManager(List<Player> players)
         {
             var billingMock = new Mock<IFortKnox>();
-            billingMock.Setup(x=>x.BillMemberFee(It.IsAny<Member>())).Returns(true);
+            billingMock.Setup(x => x.BillMemberFee(It.IsAny<Member>())).Returns(true);
             billingMock.Setup(x => x.BillTorunamentFee(It.IsAny<Member>())).Returns(true);
             billingMock.Setup(x => x.HasMemberPayedTournamentFee(It.IsAny<Member>())).Returns(true);
             billingMock.Setup(x => x.HasMemberPayedFee(It.IsAny<Member>())).Returns(true);
             var laneMock = new Mock<ILaneMachine2000>();
             laneMock.Setup(x => x.InitiateGame(It.IsAny<List<Player>>())).Returns(1);
             if (players[0].Name == "Alex Arvanitis")
-            {
                 laneMock.Setup(x => x.GetGameResult(It.IsAny<int>())).Returns(new GameResult
                 {
                     MachineId = 1,
@@ -158,11 +56,9 @@ namespace UnitTests
                     Player1Set3Score = 100,
                     Player2Set1Score = 34,
                     Player2Set2Score = 56,
-                    Player2Set3Score = 78,
+                    Player2Set3Score = 78
                 });
-            }
             else
-            {
                 laneMock.Setup(x => x.GetGameResult(It.IsAny<int>())).Returns(new GameResult
                 {
                     MachineId = 1,
@@ -172,12 +68,10 @@ namespace UnitTests
                     Player1Set3Score = 57,
                     Player2Set1Score = 34,
                     Player2Set2Score = 56,
-                    Player2Set3Score = 78,
+                    Player2Set3Score = 78
                 });
-            }
-           
-            
-           
+
+
             var facade = new GameFacade(laneMock.Object, billingMock.Object);
             return new GameManager(facade);
         }
@@ -195,8 +89,7 @@ namespace UnitTests
                     Street = "Gotlandsgatan 50",
                     City = "Sthml",
                     Zip = "11665"
-                },
-
+                }
             };
             var member2 = new Member
             {
@@ -209,8 +102,7 @@ namespace UnitTests
                     Street = "Metargatan 10",
                     City = "Sthml",
                     Zip = "11635"
-                },
-
+                }
             };
             var member3 = new Member
             {
@@ -223,8 +115,7 @@ namespace UnitTests
                     Street = "Metargatan 10",
                     City = "Sthml",
                     Zip = "11635"
-                },
-
+                }
             };
             var member4 = new Member
             {
@@ -237,8 +128,7 @@ namespace UnitTests
                     Street = "Metargatan 10",
                     City = "Sthml",
                     Zip = "11635"
-                },
-
+                }
             };
             var member5 = new Member
             {
@@ -251,8 +141,7 @@ namespace UnitTests
                     Street = "Metargatan 10",
                     City = "Sthml",
                     Zip = "11635"
-                },
-
+                }
             };
             var member6 = new Member
             {
@@ -265,8 +154,7 @@ namespace UnitTests
                     Street = "Metargatan 10",
                     City = "Sthml",
                     Zip = "11635"
-                },
-
+                }
             };
             var member7 = new Member
             {
@@ -279,8 +167,7 @@ namespace UnitTests
                     Street = "Metargatan 10",
                     City = "Sthml",
                     Zip = "11635"
-                },
-
+                }
             };
             var member8 = new Member
             {
@@ -293,8 +180,7 @@ namespace UnitTests
                     Street = "Metargatan 10",
                     City = "Sthml",
                     Zip = "11635"
-                },
-
+                }
             };
             var member9 = new Member
             {
@@ -307,8 +193,7 @@ namespace UnitTests
                     Street = "Metargatan 10",
                     City = "Sthml",
                     Zip = "11635"
-                },
-
+                }
             };
             var member10 = new Member
             {
@@ -321,8 +206,7 @@ namespace UnitTests
                     Street = "Metargatan 10",
                     City = "Sthml",
                     Zip = "11635"
-                },
-
+                }
             };
             var member11 = new Member
             {
@@ -335,10 +219,10 @@ namespace UnitTests
                     Street = "Metargatan 10",
                     City = "Sthml",
                     Zip = "11635"
-                },
-
+                }
             };
-            return new List<Member> { member1, member2, member3, member4, member5, member6, member7, member8, member9, member10, member11 };
+            return new List<Member>
+                {member1, member2, member3, member4, member5, member6, member7, member8, member9, member10, member11};
         }
 
         private MemberManager GetMemberManager()
@@ -348,9 +232,97 @@ namespace UnitTests
             mock.Setup(x => x.BillTorunamentFee(new Member())).Returns(true);
             mock.Setup(x => x.HasMemberPayedFee(new Member())).Returns(true);
             mock.Setup(x => x.HasMemberPayedTournamentFee(new Member())).Returns(true);
-          
+
             var facade = new MemberFacade(mock.Object);
             return new MemberManager(facade);
+        }
+
+        [Fact]
+        public void CreateTournament()
+        {
+            TournamentManager _tManager = GetTournamentManager();
+            string cupName = "Bengans Cup2";
+            _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(-60).AddYears(-1));
+            Tournament tournament = _tManager.GetTournament(cupName);
+            string expected = cupName;
+            string actual = tournament.Name;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void PlayGame()
+        {
+            MemberManager _memberManager = GetMemberManager();
+            IEnumerable<Member> members = SeedMembers().Take(2);
+            var _memberAdapter = new MemberAdapter();
+            var players = new List<Player>();
+            foreach (Member member in members) players.Add(_memberAdapter.ConvertMemberToPlayer(member));
+
+            GameManager _gameManager = GetGameManager(players);
+
+            Game game = _gameManager.PlayGame(SeedMembers());
+            string expected = "Alex Arvanitis";
+            string actual = game.Winner.Name;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void PlayTournament()
+        {
+            TournamentManager _tManager = GetTournamentManager();
+            var _memberAdapter = new MemberAdapter();
+            var players = new List<Player>();
+            List<Member> members = SeedMembers();
+            //members.Remove(members.SingleOrDefault(x => x.FirstName == "Alex"));
+            string cupName = "Bengans Cup";
+            Tournament tournament = _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1),
+                DateTime.Now.AddDays(-60).AddYears(-1));
+
+            foreach (Member member in members) _tManager.AddContestant(member, cupName);
+            for (int i = 0; i < members.Count; i++)
+            for (int j = i + 1; j < members.Count; j++)
+                PlayTournamentGame(new List<Member> {members[i], members[j]}, cupName);
+            string expected = "Alex Arvanitis";
+            Member winner = _tManager.GetTournamentResult(cupName).Winner;
+            string actual = winner.FirstName + " " + winner.Lastname;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void PlayTournamentGameTest()
+        {
+            var adapter = new MemberAdapter();
+            TournamentManager _tManager = GetTournamentManager();
+
+            string cupName = "Bengans Cup3";
+            _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(-60).AddYears(-1));
+            List<Member> members = SeedMembers().Take(2).ToList();
+            var players = new List<Player>();
+            foreach (Member member in members) players.Add(adapter.ConvertMemberToPlayer(member));
+            GameManager _gManager = GetGameManager(players);
+            _gManager.PlayTournamentGame(members, cupName);
+            List<Game> tournamentGames = _tManager.GetTournament(cupName).Games;
+            int expected = 1;
+            int actual = tournamentGames.Count;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void RegisterNewUsers()
+        {
+            MemberManager _memberManager = GetMemberManager();
+            List<Member> members = SeedMembers();
+            _memberManager.CreateMember(members[0]);
+            _memberManager.CreateMember(members[1]);
+
+            int expected = 2;
+            int actual = _memberManager.GetMembers().Count;
+
+            Assert.Equal(expected, actual);
         }
     }
 }
