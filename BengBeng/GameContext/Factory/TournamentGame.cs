@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BengBeng.GameContext.Factory
 {
@@ -13,6 +11,7 @@ namespace BengBeng.GameContext.Factory
             MachineId = machineId;
             Contestants = contestants;
         }
+
         public override void ConfigGame()
         {
             IsTournamentGame = true;

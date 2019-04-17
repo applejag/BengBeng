@@ -1,36 +1,36 @@
 Use Case: Registrera ny kund
 
 Huvudscenario
-1: Användaren matar in kund uppgifter.
-2: Systemet verifierar att användaren inte redan finns.
-3: Systemet skapar användaren och skickar uppgifterna till fakturering.
-4: Användaren läggs till i databasen.
+1: AnvÃ¤ndaren matar in kund uppgifter.
+2: Systemet verifierar att anvÃ¤ndaren inte redan finns.
+3: Systemet skapar anvÃ¤ndaren och skickar uppgifterna till fakturering.
+4: AnvÃ¤ndaren lÃ¤ggs till i databasen.
 
 Alternativt scenario
 
-3: Användaren finns redan i systemet. Ingen ny användare skapas.
+3: AnvÃ¤ndaren finns redan i systemet. Ingen ny anvÃ¤ndare skapas.
 
 Use Case: Spela en match
 
 Huvudscenario
-1: Användaren väljer två registrerade kunder och väljer "ny match".
-2: Systemet kollar att båda användana betalat sin användar avgift/ alternativt att den inte förfallit.
-3: Användaren bokar en ledig bana , anger längd, registerar en ny match och initierar bansystemet.
-4: När matchen är över returnerar bansystemet ett resultat.
+1: AnvÃ¤ndaren vÃ¤ljer tvÃ¥ registrerade kunder och vÃ¤ljer "ny match".
+2: Systemet kollar att bÃ¥da anvÃ¤ndana betalat sin anvÃ¤ndar avgift/ alternativt att den inte fÃ¶rfallit.
+3: AnvÃ¤ndaren bokar en ledig bana , anger lÃ¤ngd, registerar en ny match och initierar bansystemet.
+4: NÃ¤r matchen Ã¤r Ã¶ver returnerar bansystemet ett resultat.
 5: Resultatet sparas i databasen.
-6: Vinnaren får en klubba
+6: Vinnaren fÃ¥r en klubba
 
 Alternativt scenario
 
 
-Use Case: Starta en turnering och registrera användare.
+Use Case: Starta en turnering och registrera anvÃ¤ndare.
 
 Huvudscenario
-1: Användaren registrerar en ny turnering med namn och datum.
-2: Användaren lägger till registrerade kunder i turneringen.
-3: Systemet kollar att användaren inte har några obetalda avgifter
-4: Systemet skickar användaren till fakturering för turneringsavgiften.
-5: Användaren lägger till kunden i turneringen.
+1: AnvÃ¤ndaren registrerar en ny turnering med namn och datum.
+2: AnvÃ¤ndaren lÃ¤gger till registrerade kunder i turneringen.
+3: Systemet kollar att anvÃ¤ndaren inte har nÃ¥gra obetalda avgifter
+4: Systemet skickar anvÃ¤ndaren till fakturering fÃ¶r turneringsavgiften.
+5: AnvÃ¤ndaren lÃ¤gger till kunden i turneringen.
 
 Alternativt scenario
 4: Systemet medelar att kunden har obetalda avgifter.
@@ -38,10 +38,10 @@ Alternativt scenario
 
 Use Case: Avsluta turnering
 
-1: Användaren väljer turnering från systemet med namn.
-2: Användaren väljer avsluta turnering.
-3. Systemet kollar om datumen för turneringen är över.
-4: Systemet väljer en vinnare av de registrerade deltagarna och kontrollerar att reglerna är uppfyllda.
+1: AnvÃ¤ndaren vÃ¤ljer turnering frÃ¥n systemet med namn.
+2: AnvÃ¤ndaren vÃ¤ljer avsluta turnering.
+3. Systemet kollar om datumen fÃ¶r turneringen Ã¤r Ã¶ver.
+4: Systemet vÃ¤ljer en vinnare av de registrerade deltagarna och kontrollerar att reglerna Ã¤r uppfyllda.
 5: Systemet uppdaterar databasen och vinnaren loggas.
 
 

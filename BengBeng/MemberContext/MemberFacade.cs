@@ -1,19 +1,16 @@
-﻿using BengBeng.ExternalDependencies;
-using BengBeng.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using BengBeng.ExternalDependencies;
+using BengBeng.Repositories;
 
 namespace BengBeng.MemberContext
 {
     public class MemberFacade
     {
-       
         private readonly IFortKnox _billing;
 
         public MemberFacade(IFortKnox billing)
         {
-          
             _billing = billing;
         }
 
@@ -21,9 +18,21 @@ namespace BengBeng.MemberContext
         {
             BillMember(member);
             member.Memberships.Add(NewMembership());
-            
+
             MemberRepo.SaveMember(member);
             return true;
+        }
+
+        public Member GetMember(string member)
+        {
+            Console.WriteLine("Fetching member");
+            return MemberRepo.GetMember(member);
+        }
+
+        public List<Member> GetMembers()
+        {
+            Console.WriteLine("Fetching members");
+            return MemberRepo.getMembers();
         }
 
         private bool BillMember(Member member)
@@ -42,18 +51,6 @@ namespace BengBeng.MemberContext
         {
             Console.WriteLine("Saving member");
             return MemberRepo.SaveMember(member);
-        }
-
-        public Member GetMember(string member)
-        {
-            Console.WriteLine("Fetching member");
-            return MemberRepo.GetMember(member);
-        }
-
-        public List<Member> GetMembers()
-        {
-            Console.WriteLine("Fetching members");
-            return MemberRepo.getMembers();
         }
     }
 }

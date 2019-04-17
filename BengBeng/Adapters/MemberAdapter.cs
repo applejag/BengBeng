@@ -1,8 +1,5 @@
 ﻿using BengBeng.GameContext;
 using BengBeng.MemberContext;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BengBeng.Adapters
 {
@@ -10,13 +7,11 @@ namespace BengBeng.Adapters
     {
         public Player ConvertMemberToPlayer(Member member)
         {
-            return new Player {
+            return new Player
+            {
                 Id = member.Id,
-                Name = member.FirstName + " " + member.Lastname, 
+                Name = member.FirstName + " " + member.Lastname
             };
-            
         }
-
-       
     }
 }

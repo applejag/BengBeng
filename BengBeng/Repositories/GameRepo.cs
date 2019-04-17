@@ -1,24 +1,21 @@
-﻿using BengBeng.GameContext.Factory;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using BengBeng.GameContext.Factory;
 
 namespace BengBeng.Repositories
 {
     public static class GameRepo
     {
-        private static List<Game> Games = new List<Game>();
-
-        
+        private static readonly List<Game> Games = new List<Game>();
 
         public static bool SaveGame(Game game)
         {
-            if (!Games.Any(x=>x.Id == game.Id))
+            if (!Games.Any(x => x.Id == game.Id))
             {
                 Games.Add(game);
                 return true;
             }
+
             return false;
         }
 

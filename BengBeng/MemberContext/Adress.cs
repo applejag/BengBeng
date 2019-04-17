@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BengBeng.MemberContext
+﻿namespace BengBeng.MemberContext
 {
     public class Adress
     {

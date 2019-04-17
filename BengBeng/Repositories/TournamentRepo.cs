@@ -1,16 +1,14 @@
-﻿using BengBeng.GameContext.Factory;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BengBeng.GameContext.Factory;
 using BengBeng.MemberContext;
 using BengBeng.TournamentContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BengBeng.Repositories
 {
     public static class TournamentRepo
     {
-        private static List<Tournament> Tournaments = new List<Tournament>();
+        private static readonly List<Tournament> Tournaments = new List<Tournament>();
 
         //public static TournamentRepo()
         //{
@@ -25,7 +23,7 @@ namespace BengBeng.Repositories
 
         public static Tournament GetTournament(string tournamentName)
         {
-            return Tournaments.SingleOrDefault(x=>x.Name == tournamentName);
+            return Tournaments.SingleOrDefault(x => x.Name == tournamentName);
         }
 
         public static bool AddTournamentGame(Game game)
@@ -33,6 +31,7 @@ namespace BengBeng.Repositories
             Tournaments.SingleOrDefault(x => x.Name == game.TournamentName).Games.Add(game);
             return true;
         }
+
         public static bool AddTournamentMember(Member member, string tournamentName)
         {
             Tournaments.SingleOrDefault(x => x.Name == tournamentName).Contestants.Add(member);
@@ -45,9 +44,10 @@ namespace BengBeng.Repositories
             AddTournament(tournament);
             return true;
         }
+
         public static Tournament SetTournamentWinner(Member winner, string tournamentName)
         {
-            var tournament = Tournaments.SingleOrDefault(x=>x.Name==tournamentName);
+            Tournament tournament = Tournaments.SingleOrDefault(x => x.Name == tournamentName);
             tournament.Winner = winner;
             return tournament;
         }

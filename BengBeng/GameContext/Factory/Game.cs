@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BengBeng.GameContext.Factory
 {
@@ -16,7 +14,6 @@ namespace BengBeng.GameContext.Factory
         public Game()
         {
             Contestants = new List<Player>();
-
         }
 
         public abstract void ConfigGame();
