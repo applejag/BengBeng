@@ -84,77 +84,77 @@ namespace BengBeng.Tests
         {
             return new List<Member> {
                 new Member {
-                    Id = DateTime.Now.ToShortDateString() + 1,
+                    Id = "0",
                     FirstName = "Kalle",
                     Lastname = "Jillheden",
 
                     Adress = "Hemmavägen 42, Sthml, 11665"
                 },
                 new Member {
-                    Id = DateTime.Now.ToShortDateString() + 2,
+                    Id = "2",
                     FirstName = "John",
                     Lastname = "Doe",
 
                     Adress = "Road rd. 10, Sthml, 11635"
                 },
                 new Member {
-                    Id = DateTime.Now.ToShortDateString() + 3,
+                    Id = "3",
                     FirstName = "Plopp",
                     Lastname = "Knäck",
 
                     Adress = "Månen, Sthml, 11635"
                 },
                 new Member {
-                    Id = DateTime.Now.ToShortDateString() + 4,
+                    Id = "4",
                     FirstName = "Xeraph",
                     Lastname = "Booswasch",
 
                     Adress = "Rift, Sthml, 11635"
                 },
                 new Member {
-                    Id = DateTime.Now.ToShortDateString() + 5,
+                    Id = "5",
                     FirstName = "Jason",
                     Lastname = "Mickesson",
 
                     Adress = "Bulleland, Sthml, 11635"
                 },
                 new Member {
-                    Id = DateTime.Now.ToShortDateString() + 6,
+                    Id = "6",
                     FirstName = "Olle",
                     Lastname = "Ellosson",
 
                     Adress = "Sifferholm 10214125, Sthml, 11635"
                 },
                 new Member {
-                    Id = DateTime.Now.ToShortDateString() + 7,
+                    Id = "7",
                     FirstName = "Understeck",
                     Lastname = "_________",
 
                     Adress = "Den gatan runt hörnet, Sthml, 11635"
                 },
                 new Member {
-                    Id = DateTime.Now.ToShortDateString() + 8,
+                    Id = "8",
                     FirstName = "Älg",
                     Lastname = "Ren",
 
                     Adress = "Skogsbrunet ½, Sthml, 11635"
                 },
                 new Member {
-                    Id = DateTime.Now.ToShortDateString() + 9,
+                    Id = "9",
                     FirstName = "Tiina",
                     Lastname = "Arvar",
 
                     Adress = "Meta torget, Sthml, 11635"
                 },
                 new Member {
-                    Id = DateTime.Now.ToShortDateString() + 10,
+                    Id = "10",
                     FirstName = "Leena",
                     Lastname = "Büll",
 
                     Adress = "På tågen, Sthml, 11635"
                 },
                 new Member {
-                    Id = DateTime.Now.ToShortDateString() + 11,
+                    Id = "11",
                     FirstName = "Fredrik",
                     Lastname = "Höglund",
 
