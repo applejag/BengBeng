@@ -17,18 +17,18 @@ namespace UnitTests
     {
         private void PlayTournamentGame(List<Member> members, string cupName)
         {
-            MemberManager _memberManager = GetMemberManager();
+            var _memberManager = GetMemberManager();
 
             var _memberAdapter = new MemberAdapter();
             var players = new List<Player>();
-            foreach (Member member in members)
+            foreach (var member in members)
             {
                 players.Add(_memberAdapter.ConvertMemberToPlayer(member));
             }
 
-            GameManager _gameManager = GetGameManager(players);
+            var _gameManager = GetGameManager(players);
 
-            Game game = _gameManager.PlayTournamentGame(members, cupName);
+            var game = _gameManager.PlayTournamentGame(members, cupName);
         }
 
         private TournamentManager GetTournamentManager()
@@ -83,7 +83,7 @@ namespace UnitTests
             return new GameManager(facade);
         }
 
-        private List<Member> SeedMembers()
+        private static List<Member> SeedMembers()
         {
             var member1 = new Member
             {
@@ -232,7 +232,7 @@ namespace UnitTests
                 {member1, member2, member3, member4, member5, member6, member7, member8, member9, member10, member11};
         }
 
-        private MemberManager GetMemberManager()
+        private static MemberManager GetMemberManager()
         {
             var mock = new Mock<IFortKnox>();
             mock.Setup(x => x.BillMemberFee(new Member())).Returns(true);
@@ -247,10 +247,10 @@ namespace UnitTests
         [TestMethod]
         public void CreateTournament()
         {
-            TournamentManager _tManager = GetTournamentManager();
+            var _tManager = GetTournamentManager();
             string cupName = "Bengans Cup2";
             _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(-60).AddYears(-1));
-            Tournament tournament = _tManager.GetTournament(cupName);
+            var tournament = _tManager.GetTournament(cupName);
             string expected = cupName;
             string actual = tournament.Name;
 
@@ -260,19 +260,20 @@ namespace UnitTests
         [TestMethod]
         public void PlayGame()
         {
-            MemberManager _memberManager = GetMemberManager();
-            IEnumerable<Member> members = SeedMembers().Take(2);
+            const string expected = "John Doe";
+
+            GetMemberManager();
+            var members = SeedMembers().Take(2);
             var _memberAdapter = new MemberAdapter();
             var players = new List<Player>();
-            foreach (Member member in members)
+            foreach (var member in members)
             {
                 players.Add(_memberAdapter.ConvertMemberToPlayer(member));
             }
 
-            GameManager _gameManager = GetGameManager(players);
+            var _gameManager = GetGameManager(players);
 
-            Game game = _gameManager.PlayGame(SeedMembers());
-            string expected = "John Doe";
+            var game = _gameManager.PlayGame(SeedMembers());
             string actual = game.Winner.Name;
 
             Assert.AreEqual(expected, actual);
@@ -281,15 +282,15 @@ namespace UnitTests
         [TestMethod]
         public void PlayTournament()
         {
-            TournamentManager _tManager = GetTournamentManager();
-            var _memberAdapter = new MemberAdapter();
-            var players = new List<Player>();
-            List<Member> members = SeedMembers();
-            string cupName = "Bengans Cup";
-            Tournament tournament = _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1),
+            const string cupName = "Bengans Cup";
+            const string expected = "John Doe";
+
+            var _tManager = GetTournamentManager();
+            var members = SeedMembers();
+            _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1),
                 DateTime.Now.AddDays(-60).AddYears(-1));
 
-            foreach (Member member in members)
+            foreach (var member in members)
             {
                 _tManager.AddContestant(member, cupName);
             }
@@ -302,8 +303,7 @@ namespace UnitTests
                 }
             }
 
-            string expected = "John Doe";
-            Member winner = _tManager.GetTournamentResult(cupName).Winner;
+            var winner = _tManager.GetTournamentResult(cupName).Winner;
             string actual = winner.FirstName + " " + winner.Lastname;
 
             Assert.AreEqual(expected, actual);
@@ -312,22 +312,23 @@ namespace UnitTests
         [TestMethod]
         public void PlayTournamentGameTest()
         {
-            var adapter = new MemberAdapter();
-            TournamentManager _tManager = GetTournamentManager();
+            const string cupName = "Bengans Cup3";
+            const int expected = 1;
 
-            string cupName = "Bengans Cup3";
+            var adapter = new MemberAdapter();
+            var _tManager = GetTournamentManager();
+
             _tManager.Createtournament(cupName, DateTime.Now.AddYears(-1), DateTime.Now.AddDays(-60).AddYears(-1));
-            List<Member> members = SeedMembers().Take(2).ToList();
+            var members = SeedMembers().Take(2).ToList();
             var players = new List<Player>();
-            foreach (Member member in members)
+            foreach (var member in members)
             {
                 players.Add(adapter.ConvertMemberToPlayer(member));
             }
 
-            GameManager _gManager = GetGameManager(players);
+            var _gManager = GetGameManager(players);
             _gManager.PlayTournamentGame(members, cupName);
-            List<Game> tournamentGames = _tManager.GetTournament(cupName).Games;
-            int expected = 1;
+            var tournamentGames = _tManager.GetTournament(cupName).Games;
             int actual = tournamentGames.Count;
 
             Assert.AreEqual(expected, actual);
@@ -336,12 +337,13 @@ namespace UnitTests
         [TestMethod]
         public void RegisterNewUsers()
         {
-            MemberManager _memberManager = GetMemberManager();
-            List<Member> members = SeedMembers();
+            const int expected = 2;
+
+            var _memberManager = GetMemberManager();
+            var members = SeedMembers();
             _memberManager.CreateMember(members[0]);
             _memberManager.CreateMember(members[1]);
 
-            int expected = 2;
             int actual = _memberManager.GetMembers().Count;
 
             Assert.AreEqual(expected, actual);
