@@ -14,37 +14,37 @@ namespace BengBeng.MemberContext
             _billing = billing;
         }
 
-        public bool CreateMember(Member member)
-        {
-            BillMember(member);
-            member.Memberships.Add(NewMembership());
-
-            MemberRepo.SaveMember(member);
-            return true;
-        }
-
-        public Member GetMember(string member)
+        public static Member GetMember(string member)
         {
             Console.WriteLine("Fetching member");
             return MemberRepo.GetMember(member);
         }
 
-        public List<Member> GetMembers()
+        public static List<Member> GetAllMembers()
         {
             Console.WriteLine("Fetching members");
-            return MemberRepo.GetMembers();
+            return MemberRepo.GetAllMembers();
+        }
+
+        private static Membership GetMembership()
+        {
+            Console.WriteLine("Adding membership to member");
+            return new Membership {ValidYear = DateTime.Now.Year, StartDate = DateTime.Now, IsPayed = true};
+        }
+
+        public bool CreateMember(Member member)
+        {
+            BillMember(member);
+            member.Memberships.Add(GetMembership());
+
+            MemberRepo.SaveMember(member);
+            return true;
         }
 
         private bool BillMember(Member member)
         {
             Console.WriteLine("Billing member");
             return _billing.BillMemberFee(member);
-        }
-
-        private Membership NewMembership()
-        {
-            Console.WriteLine("Adding membership to member");
-            return new Membership {ValidYear = DateTime.Now.Year, StartDate = DateTime.Now, IsPayed = true};
         }
 
         private bool SaveMember(Member member)

@@ -20,12 +20,12 @@ namespace BengBeng.MemberContext
 
         public Member GetMember(string member)
         {
-            return _facade.GetMember(member);
+            return MemberFacade.GetMember(member);
         }
 
         public List<Member> GetMembers()
         {
-            return _facade.GetMembers();
+            return MemberFacade.GetAllMembers();
         }
     }
 }

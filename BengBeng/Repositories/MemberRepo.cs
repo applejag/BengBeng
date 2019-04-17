@@ -19,7 +19,7 @@ namespace BengBeng.Repositories
             return Members.SingleOrDefault(x => x.Id == id);
         }
 
-        public static List<Member> GetMembers()
+        public static List<Member> GetAllMembers()
         {
             return Members;
         }
